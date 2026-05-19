@@ -1,0 +1,201 @@
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;600&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --accent-glow: rgba(191, 255, 11, 0.3);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Inter", sans-serif;
+  background-color: #0a0a0a;
+  color: #ffffff;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* Grid pattern MÁS VISIBLE Y PERSISTENTE */
+/* Grid pattern MUY VISIBLE */
+/* FONDO: Negro sólido en body */
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: #0A0A0A;
+  color: #FFFFFF;
+  overflow-x: hidden;
+  position: relative;
+}
+
+
+/* Asegurar que el contenido esté por encima de los fondos */
+#root {
+  position: relative;
+  z-index: 1;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom scrollbar para navegadores webkit */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0a0a0a;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #262626;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #bfff0b;
+}
+
+/* Clases de utilidad personalizadas */
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .glow-accent {
+    box-shadow: 0 0 20px var(--accent-glow);
+  }
+
+  .glow-accent-md {
+    box-shadow: 0 0 40px var(--accent-glow);
+  }
+
+  .glow-accent-lg {
+    box-shadow: 0 0 60px var(--accent-glow);
+  }
+}
+
+/* Animaciones personalizadas */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-down {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Animaciones de loading para números de estadísticas */
+@keyframes pulse-glow {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* Estilos para elementos interactivos */
+button,
+a {
+  transition: all 0.3s ease;
+}
+
+button:focus-visible,
+a:focus-visible {
+  outline: 2px solid #bfff0b;
+  outline-offset: 2px;
+}
+
+/* Animaciones para formas geométricas flotantes */
+@keyframes float-slow {
+  0%,
+  100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  33% {
+    transform: translate(30px, -30px) rotate(120deg);
+  }
+  66% {
+    transform: translate(-20px, 20px) rotate(240deg);
+  }
+}
+
+@keyframes float-medium {
+  0%,
+  100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  50% {
+    transform: translate(-40px, 40px) rotate(180deg);
+  }
+}
+
+@keyframes float-fast {
+  0%,
+  100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  25% {
+    transform: translate(20px, -40px) rotate(90deg);
+  }
+  50% {
+    transform: translate(-30px, -20px) rotate(180deg);
+  }
+  75% {
+    transform: translate(40px, 30px) rotate(270deg);
+  }
+}
+
+@keyframes pulse-glow-shape {
+  0%,
+  100% {
+    box-shadow: 0 0 20px rgba(191, 255, 11, 0.3);
+    opacity: 0.6;
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(191, 255, 11, 0.6);
+    opacity: 0.8;
+  }
+}
