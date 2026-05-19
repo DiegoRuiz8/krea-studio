@@ -69,17 +69,34 @@ const useParticleWave = (
     const positions: number[] = [];
     const initialPositions: number[] = [];
 
-    // Grid más denso pero optimizado
-    const particleCount = 4000;
-    const gridSize = Math.ceil(Math.sqrt(particleCount));
-    const gridSpacing = 40;
-    const halfGrid = (gridSize * gridSpacing) / 2;
+    // Malla con perspectiva: puntos más separados abajo y más comprimidos arriba
+    const rows = 22;
+    const cols = 38;
 
-    for (let i = 0; i < gridSize; i++) {
-      for (let j = 0; j < gridSize; j++) {
-        const x = i * gridSpacing - halfGrid;
-        const y = j * gridSpacing - halfGrid;
-        const z = 0;
+    const widthNear = 1900; // parte baja: más cerca, más abierta
+    const widthFar = 1650; // parte alta: más lejos, más comprimida
+    const height = 760;
+
+    for (let row = 0; row < rows; row++) {
+      const v = row / (rows - 1); // 0 = abajo/cerca, 1 = arriba/lejos
+
+      // Perspectiva: abajo más ancho, arriba más estrecho
+      const rowWidth = THREE.MathUtils.lerp(widthNear, widthFar, v);
+
+      // Espaciado vertical no lineal: abajo más separado, arriba más pegado
+      const perspectiveY = Math.pow(v, 0.82);
+      const y = -height / 2 + perspectiveY * height;
+
+      for (let col = 0; col < cols; col++) {
+        const u = col / (cols - 1);
+
+        // X centrado con una ligera curva para que no parezca grid perfecto
+        const x =
+          (u - 0.5) * rowWidth +
+          Math.sin(v * Math.PI) * Math.sin(u * Math.PI * 2) * 18;
+
+        // Z base: abajo más cerca de cámara, arriba más lejos
+        const z = THREE.MathUtils.lerp(160, -260, v);
 
         positions.push(x, y, z);
         initialPositions.push(x, y, z);
@@ -91,14 +108,14 @@ const useParticleWave = (
       new THREE.Float32BufferAttribute(positions, 3),
     );
 
-    // Material de las partículas con el color accent
+    // Material de partículas estilo referencia: blanco/gris, más grandes y sutiles
     const material = new THREE.PointsMaterial({
-      color: new THREE.Color("#BFFF0B"),
-      size: 1.2,
+      color: new THREE.Color("#E5E7EB"),
+      size: 2.4,
       transparent: true,
-      opacity: 0.5,
+      opacity: 0.42,
       sizeAttenuation: true,
-      blending: THREE.AdditiveBlending,
+      blending: THREE.NormalBlending,
     });
 
     // Crear el sistema de partículas
@@ -111,26 +128,40 @@ const useParticleWave = (
     // Animación
     const animate = () => {
       animationId = requestAnimationFrame(animate);
-      animationTime += 0.003;
+      animationTime += 0.008; // más rápido
 
       const positions = particles.geometry.attributes.position.array;
 
-      // Aplicar onda sinusoidal a cada partícula
       for (let i = 0; i < positions.length; i += 3) {
-        const x = initialPositions[i];
-        const y = initialPositions[i + 1];
+        const baseX = initialPositions[i];
+        const baseY = initialPositions[i + 1];
+        const baseZ = initialPositions[i + 2];
 
-        // Calcular desplazamiento en Z basado en posición XY y tiempo
-        const distance = Math.sqrt(x * x + y * y);
-        const wave = Math.sin(distance * 0.008 + animationTime * 3);
+        // Normalizamos Y: 0 = abajo/cerca, 1 = arriba/lejos
+        const v = (baseY + height / 2) / height;
 
-        positions[i + 2] = wave * 25;
+        // Onda que viaja desde abajo hacia arriba
+        const travelingWave = Math.sin(v * 9.5 - animationTime * 2);
+
+        // La onda pega más fuerte abajo y se disuelve hacia arriba
+        const waveStrength = THREE.MathUtils.lerp(32, 8, v);
+
+        // Pequeña onda lateral para que no parezca una cuadrícula perfecta
+        const sideRipple =
+          Math.sin(baseX * 0.006 + animationTime * 1.4) * 7 * (1 - v);
+
+        positions[i] = baseX + sideRipple;
+        positions[i + 1] = baseY;
+
+        // Aquí está la "tela": la onda empuja hacia cámara y se propaga hacia atrás
+        positions[i + 2] = baseZ + travelingWave * waveStrength;
       }
 
       particles.geometry.attributes.position.needsUpdate = true;
 
-      // Rotación muy sutil del sistema completo
-      particles.rotation.z = animationTime * 0.03;
+      // Rotación/perspectiva fija: como si viéramos la tela desde arriba/frente
+      particles.rotation.x = -0.72;
+      particles.rotation.z = 0.015;
 
       renderer.render(scene, camera);
     };
@@ -199,39 +230,48 @@ const Stats = () => {
   return (
     <section
       ref={ref}
-      className="relative min-h-screen flex items-center justify-center border-t border-border-subtle my-section-gap overflow-hidden bg-bg-primary"
+      className="relative min-h-[82vh] flex items-center justify-center border-t border-border-subtle my-section-gap overflow-hidden bg-bg-primary pt-24 md:pt-32"
     >
-      {/* Canvas de Three.js para partículas - posicionado en la parte inferior */}
+      {/* Canvas de Three.js para partículas - entra suavemente desde la mitad hacia abajo */}
       <div
         ref={particleContainerRef}
         className="absolute inset-0 pointer-events-none"
         style={{
           WebkitMaskImage:
-            "linear-gradient(to top, black 0%, black 50%, transparent 80%)",
+            "linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.12) 26%, rgba(0,0,0,0.55) 38%, black 52%, black 100%)",
           maskImage:
-            "linear-gradient(to top, black 0%, black 50%, transparent 80%)",
+            "linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.12) 26%, rgba(0,0,0,0.55) 38%, black 52%, black 100%)",
         }}
       />
 
-      {/* Grid sutil de fondo - SOLO parte superior con fade hacia abajo */}
+      {/* Grid sutil de fondo - baja más y se difumina hacia las partículas */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
           backgroundImage: `
-            linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px)
-          `,
+          linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px)
+        `,
           backgroundSize: "80px 80px",
           WebkitMaskImage:
-            "linear-gradient(to bottom, black 0%, black 30%, transparent 60%)",
+            "linear-gradient(to bottom, black 0%, black 38%, rgba(0,0,0,0.55) 58%, rgba(0,0,0,0.18) 70%, transparent 86%)",
           maskImage:
-            "linear-gradient(to bottom, black 0%, black 30%, transparent 60%)",
+            "linear-gradient(to bottom, black 0%, black 38%, rgba(0,0,0,0.55) 58%, rgba(0,0,0,0.18) 70%, transparent 86%)",
+        }}
+      />
+
+      {/* Overlay suave para mezclar ambos efectos y evitar corte limpio */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background:
+            "linear-gradient(to bottom, transparent 30%, rgba(10,10,10,0.18) 48%, rgba(10,10,10,0.08) 62%, transparent 78%)",
         }}
       />
 
       {/* Contenido principal - centrado verticalmente */}
       <div className="max-w-container-max mx-auto relative z-10 px-margin-mobile md:px-margin-desktop w-full">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 divide-y md:divide-y-0 md:divide-x divide-border-subtle">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-16 md:gap-24">
           {stats.map((stat, index) => (
             <motion.div
               key={index}
@@ -242,7 +282,7 @@ const Stats = () => {
                 delay: index * 0.15,
                 ease: [0.22, 1, 0.36, 1],
               }}
-              className="text-center py-8 md:py-0"
+              className="text-center py-6 md:py-0"
             >
               {/* Número con count-up y glow effect */}
               <motion.div

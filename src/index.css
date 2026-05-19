@@ -80,6 +80,15 @@ html {
   .glow-accent-lg {
     box-shadow: 0 0 60px var(--accent-glow);
   }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 /* Animaciones personalizadas */

@@ -91,92 +91,93 @@ const Hero = () => {
       </div>
 
       {/* Contenido principal */}
-      <div className="max-w-container-max mx-auto w-full relative z-10">
-        <div className="max-w-4xl">
-          {/* Label superior */}
-          <motion.span
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="font-body text-label-caps text-accent uppercase tracking-widest mb-6 block"
-          >
-            Agencia de Desarrollo Web
-          </motion.span>
+<div className="max-w-container-max mx-auto w-full relative z-10">
+  <div className="max-w-4xl">
+    {/* Label superior */}
+    <motion.span
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6, delay: 0.2 }}
+      className="font-body text-label-caps text-accent uppercase tracking-widest mb-6 block"
+    >
+      Agencia de Desarrollo Web
+    </motion.span>
 
-          {/* Headline principal */}
-          <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
-            className="font-display text-display-xl-mobile md:text-display-xl text-text-primary mb-8 leading-tight"
-          >
-            Creamos experiencias web que{' '}
-            <span className="text-accent">convierten</span>
-          </motion.h1>
+    {/* Headline principal */}
+    <motion.h1
+      initial={{ opacity: 0, y: 30 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.8, delay: 0.3 }}
+      className="font-display text-display-xl-mobile md:text-display-xl text-text-primary mb-8 leading-tight"
+    >
+      Creamos experiencias web que{' '}
+      <span className="text-accent">convierten</span>
+    </motion.h1>
 
-          {/* Descripción */}
-          <motion.p
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.5 }}
-            className="font-body text-body-lg text-text-secondary max-w-2xl mb-12"
-          >
-            Diseñamos y desarrollamos sitios web personalizados que 
-            transforman ideas en soluciones digitales elegantes y de alto 
-            rendimiento.
-          </motion.p>
+    {/* Descripción */}
+    <motion.p
+      initial={{ opacity: 0, y: 30 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.8, delay: 0.5 }}
+      className="font-body text-body-lg text-text-secondary max-w-2xl mb-12"
+    >
+      Diseñamos y desarrollamos sitios web personalizados que 
+      transforman ideas en soluciones digitales elegantes y de alto 
+      rendimiento.
+    </motion.p>
 
-          {/* CTAs */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.7 }}
-            className="flex flex-col sm:flex-row gap-4"
-          >
-            <motion.button
-              whileHover={{ 
-                scale: 1.05,
-                boxShadow: '0 0 30px rgba(191, 255, 11, 0.4)'
-              }}
-              whileTap={{ scale: 0.95 }}
-              className="bg-accent hover:bg-accent-hover text-[#0A0A0A] px-8 py-4 rounded font-body font-semibold text-base uppercase tracking-wider transition-all duration-300"
-            >
-              Agendar Consulta
-            </motion.button>
+    {/* CTAs */}
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.8, delay: 0.7 }}
+      className="flex flex-col sm:flex-row gap-4"
+    >
+      <motion.button
+        whileHover={{ 
+          scale: 1.05,
+          boxShadow: '0 0 30px rgba(191, 255, 11, 0.4)'
+        }}
+        whileTap={{ scale: 0.95 }}
+        className="bg-accent hover:bg-accent-hover text-[#0A0A0A] px-8 py-4 rounded font-body font-semibold text-base uppercase tracking-wider transition-all duration-300"
+      >
+        Agendar Consulta
+      </motion.button>
 
-            <motion.button
-              whileHover={{ 
-                scale: 1.05,
-                borderColor: '#BFFF0B'
-              }}
-              whileTap={{ scale: 0.95 }}
-              className="border border-border-subtle hover:border-accent text-text-primary px-8 py-4 rounded font-body font-semibold text-base uppercase tracking-wider transition-all duration-300"
-            >
-              Ver Portfolio
-            </motion.button>
-          </motion.div>
-        </div>
+      <motion.button
+        whileHover={{ 
+          scale: 1.05,
+          borderColor: '#BFFF0B'
+        }}
+        whileTap={{ scale: 0.95 }}
+        className="border border-border-subtle hover:border-accent text-text-primary px-8 py-4 rounded font-body font-semibold text-base uppercase tracking-wider transition-all duration-300"
+      >
+        Ver Portfolio
+      </motion.button>
+    </motion.div>
+  </div>
+</div>
 
-        {/* Scroll indicator */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 1.2 }}
-          className="absolute bottom-10 left-1/2 transform -translate-x-1/2"
-        >
-          <motion.div
-            animate={{ y: [0, 10, 0] }}
-            transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
-            className="w-6 h-10 border-2 border-accent rounded-full flex justify-center pt-2"
-          >
-            <motion.div
-              animate={{ y: [0, 12, 0] }}
-              transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
-              className="w-1.5 h-1.5 bg-accent rounded-full"
-            />
-          </motion.div>
-        </motion.div>
-      </div>
+{/* Scroll indicator */}
+<motion.div
+  initial={{ opacity: 0 }}
+  animate={{ opacity: 1 }}
+  transition={{ duration: 1, delay: 1.2 }}
+  className="absolute bottom-12 left-1/2 -translate-x-1/2 z-20"
+>
+  <motion.div
+    animate={{ y: [0, 10, 0] }}
+    transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
+    className="w-6 h-10 border-2 border-accent rounded-full flex justify-center pt-2"
+  >
+    <motion.div
+      animate={{ y: [0, 12, 0] }}
+      transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
+      className="w-1.5 h-1.5 bg-accent rounded-full"
+    />
+  </motion.div>
+</motion.div>
+      
     </section>
   );
 };
