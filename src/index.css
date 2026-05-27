@@ -208,3 +208,29 @@ a:focus-visible {
     opacity: 0.8;
   }
 }
+
+
+
+@keyframes stats-particle-drift {
+  from {
+    background-position: 0 0, center;
+    transform: perspective(900px) rotateX(58deg) translateY(8px);
+  }
+
+  to {
+    background-position: 28px -22px, center;
+    transform: perspective(900px) rotateX(58deg) translateY(-10px);
+  }
+}
+
+@keyframes stats-fallback-glow {
+  from {
+    opacity: 0.45;
+    transform: scale(0.98);
+  }
+
+  to {
+    opacity: 0.75;
+    transform: scale(1.04);
+  }
+}
