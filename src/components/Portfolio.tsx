@@ -357,111 +357,115 @@ const Portfolio = () => {
         )}
       </AnimatePresence>
 
-      {/* Modal detalle */}
-      <AnimatePresence>
-        {selectedProject !== null && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            onClick={closeModal}
-            className="fixed inset-0 z-[60] flex items-center justify-center bg-[#0A0A0A]/95 backdrop-blur-sm p-4 md:p-8"
-          >
-            <motion.div
-              initial={{ scale: 0.9, opacity: 0, y: 20 }}
-              animate={{ scale: 1, opacity: 1, y: 0 }}
-              exit={{ scale: 0.95, opacity: 0, y: 10 }}
-              transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-              onClick={(e) => e.stopPropagation()}
-              className="relative w-full max-w-6xl bg-surface-container-high rounded-2xl overflow-hidden border border-border-subtle"
-            >
-              <motion.button
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.2 }}
-                onClick={closeModal}
-                className="absolute top-6 right-6 z-10 w-12 h-12 rounded-full bg-[#0A0A0A]/80 backdrop-blur-sm flex items-center justify-center text-text-primary hover:bg-accent hover:text-[#0A0A0A] transition-all duration-300"
-              >
-                <X className="w-6 h-6" strokeWidth={2} />
-              </motion.button>
+      
+{/* Modal detalle */}
+<AnimatePresence>
+  {selectedProject !== null && (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.3 }}
+      onClick={closeModal}
+      className="fixed inset-0 z-[60] flex items-start justify-center bg-[#0A0A0A]/95 backdrop-blur-sm p-4 md:p-8 overflow-y-auto"
+    >
+      <motion.div
+        initial={{ scale: 0.9, opacity: 0, y: 20 }}
+        animate={{ scale: 1, opacity: 1, y: 0 }}
+        exit={{ scale: 0.95, opacity: 0, y: 10 }}
+        transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+        onClick={(e) => e.stopPropagation()}
+        className="relative w-full max-w-6xl bg-surface-container-high rounded-2xl overflow-hidden border border-border-subtle my-auto"
+      >
+        {/* X — más chica y pegada al borde para que quepa en mobile */}
+        <motion.button
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.2 }}
+          onClick={closeModal}
+          className="absolute top-4 right-4 z-10 w-10 h-10 rounded-full bg-[#0A0A0A]/80 backdrop-blur-sm flex items-center justify-center text-text-primary hover:bg-accent hover:text-[#0A0A0A] transition-all duration-300"
+        >
+          <X className="w-5 h-5" strokeWidth={2} />
+        </motion.button>
 
-              <div className="grid grid-cols-1 lg:grid-cols-2">
-                <div className="relative aspect-[4/3] lg:aspect-auto bg-surface-container-highest">
-                  <img
-                    src={projects[selectedProject].image}
-                    alt={projects[selectedProject].title}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                <div className="p-8 md:p-12 flex flex-col justify-between">
-                  <div>
-                    <motion.span
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.2 }}
-                      className="font-body text-label-caps text-accent uppercase tracking-widest mb-4 block"
-                    >
-                      {projects[selectedProject].category}
-                    </motion.span>
-                    <motion.h3
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.25 }}
-                      className="font-display text-4xl md:text-5xl text-text-primary mb-4"
-                    >
-                      {projects[selectedProject].title}
-                    </motion.h3>
-                    <motion.p
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.3 }}
-                      className="font-body text-body-md text-text-secondary mb-4"
-                    >
-                      {projects[selectedProject].subtitle}
-                    </motion.p>
-                    <motion.p
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.35 }}
-                      className="font-body text-body-lg text-text-primary leading-relaxed mb-8"
-                    >
-                      {projects[selectedProject].description}
-                    </motion.p>
-                    <motion.div
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.4 }}
-                      className="flex flex-wrap gap-2"
-                    >
-                      {projects[selectedProject].tags.map((tag, tagIndex) => (
-                        <motion.span
-                          key={tag}
-                          initial={{ opacity: 0, scale: 0.8 }}
-                          animate={{ opacity: 1, scale: 1 }}
-                          transition={{ delay: 0.45 + tagIndex * 0.05 }}
-                          className="px-4 py-2 bg-surface-container-highest border border-border-subtle rounded-full font-body text-body-sm text-text-primary"
-                        >
-                          {tag}
-                        </motion.span>
-                      ))}
-                    </motion.div>
-                  </div>
-                  <motion.button
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.5 }}
-                    className="mt-8 w-full py-4 bg-accent hover:bg-accent-hover text-[#0A0A0A] font-body text-body-md font-medium rounded-full transition-all duration-300 flex items-center justify-center gap-2 group"
+        <div className="grid grid-cols-1 lg:grid-cols-2">
+          <div className="relative aspect-[4/3] lg:aspect-auto bg-surface-container-highest">
+            <img
+              src={projects[selectedProject].image}
+              alt={projects[selectedProject].title}
+              className="w-full h-full object-cover"
+            />
+          </div>
+          <div className="p-6 md:p-12 flex flex-col justify-between">
+            <div>
+              <motion.span
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2 }}
+                className="font-body text-label-caps text-accent uppercase tracking-widest mb-4 block"
+              >
+                {projects[selectedProject].category}
+              </motion.span>
+              <motion.h3
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.25 }}
+                className="font-display text-3xl md:text-5xl text-text-primary mb-4"
+              >
+                {projects[selectedProject].title}
+              </motion.h3>
+              <motion.p
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 }}
+                className="font-body text-body-md text-text-secondary mb-4"
+              >
+                {projects[selectedProject].subtitle}
+              </motion.p>
+              <motion.p
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.35 }}
+                className="font-body text-body-md text-text-primary leading-relaxed mb-6"
+              >
+                {projects[selectedProject].description}
+              </motion.p>
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4 }}
+                className="flex flex-wrap gap-2"
+              >
+                {projects[selectedProject].tags.map((tag, tagIndex) => (
+                  <motion.span
+                    key={tag}
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ delay: 0.45 + tagIndex * 0.05 }}
+                    className="px-4 py-2 bg-surface-container-highest border border-border-subtle rounded-full font-body text-body-sm text-text-primary"
                   >
-                    Ver Proyecto Completo
-                    <ArrowUpRight className="w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-300" />
-                  </motion.button>
-                </div>
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+                    {tag}
+                  </motion.span>
+                ))}
+              </motion.div>
+            </div>
+            <motion.button
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5 }}
+              className="mt-6 w-full py-4 bg-accent hover:bg-accent-hover text-[#0A0A0A] font-body text-body-md font-medium rounded-full transition-all duration-300 flex items-center justify-center gap-2 group"
+            >
+              Ver Proyecto Completo
+              <ArrowUpRight className="w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-300" />
+            </motion.button>
+          </div>
+        </div>
+      </motion.div>
+    </motion.div>
+  )}
+</AnimatePresence>
+
+
     </>
   );
 };

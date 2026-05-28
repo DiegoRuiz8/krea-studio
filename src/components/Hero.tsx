@@ -173,8 +173,7 @@ className="flex flex-row flex-wrap items-center justify-center gap-3 mt-7 md:mt-
                 boxShadow: "0 0 30px rgba(191, 255, 11, 0.35)",
               }}
               whileTap={{ scale: 0.96 }}
-              className="rounded-full bg-accent hover:bg-accent-hover text-[#0A0A0A] px-7 md:px-8 py-4 font-body font-semibold tracking-wide uppercase text-xs md:text-sm transition-all duration-300"
-            >
+className="rounded-full bg-accent hover:bg-accent-hover text-[#0A0A0A] px-5 md:px-8 py-4 font-body font-semibold tracking-wide uppercase text-xs md:text-sm transition-all duration-300"            >
               Agendar Consulta
             </motion.a>
 
@@ -185,7 +184,7 @@ className="flex flex-row flex-wrap items-center justify-center gap-3 mt-7 md:mt-
                 borderColor: "#BFFF0B",
               }}
               whileTap={{ scale: 0.96 }}
-              className="rounded-full border border-white/20 bg-white/[0.03] hover:bg-white/[0.07] hover:border-accent text-text-primary px-7 md:px-8 py-4 font-body font-semibold tracking-wide uppercase text-xs md:text-sm transition-all duration-300 backdrop-blur-sm"
+className="rounded-full border border-white/20 bg-white/[0.03] hover:bg-white/[0.07] hover:border-accent text-text-primary px-5 md:px-8 py-4 font-body font-semibold tracking-wide uppercase text-xs md:text-sm transition-all duration-300 backdrop-blur-sm"
             >
               Ver Portfolio
             </motion.a>
