@@ -1,11 +1,11 @@
-import Navbar from './components/Navbar';
-import Hero from './components/Hero';
-import Services from './components/Services';
-import Process from './components/Process';
-import Portfolio from './components/Portfolio';
-import Stats from './components/Stats';
-import CTASection from './components/CTASection';
-import Footer from './components/Footer';
+import Navbar from "./components/Navbar";
+import Hero from "./components/Hero";
+import Services from "./components/Services";
+import Process from "./components/Process";
+import Portfolio from "./components/Portfolio";
+import Stats from "./components/Stats";
+import CTASection from "./components/CTASection";
+import Footer from "./components/Footer";
 
 function App() {
   return (
@@ -14,9 +14,9 @@ function App() {
       <main>
         <Hero />
         <Services />
-        <Process />
-        <Portfolio />
         <Stats />
+        <Portfolio />
+        <Process />
         <CTASection />
       </main>
       <Footer />
