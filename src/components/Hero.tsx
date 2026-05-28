@@ -1,8 +1,9 @@
 import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 
-const VIDEO_URL =
-"/videos/bg-video-hero-section.mp4";
+const VIDEO_URL = "/videos/bg-video-hero-section.mp4";
+const POSTER_URL = "/videos/particle-wave-poster.webp";
+
 function useVideoFadeLoop() {
   const ref = useRef<HTMLVideoElement>(null);
 
@@ -62,20 +63,27 @@ const Hero = () => {
   const videoRef = useVideoFadeLoop();
 
   return (
-    <section className="relative min-h-[100svh] flex items-center justify-center overflow-hidden bg-[#0A0A0A] px-5 sm:px-6 pt-28 md:pt-24 pb-12 md:pb-16">
-      {" "}
+<section className="relative min-h-[100svh] flex items-center justify-center overflow-clip bg-[#0A0A0A] px-5 sm:px-6 pt-24 md:pt-24 pb-8 md:pb-16">      {" "}
       {/* Background video */}
       <div className="absolute inset-0 z-0 overflow-hidden">
         <video
-  src={VIDEO_URL}
-  autoPlay
-  loop
-  muted
-  playsInline
-  preload="auto"
-  className="absolute inset-0 w-full h-full object-cover opacity-80"
-/>
-
+          ref={videoRef}
+          src={VIDEO_URL}
+          poster={POSTER_URL}
+          autoPlay
+          loop
+          muted
+          playsInline
+          preload="auto"
+          aria-hidden="true"
+          className="absolute inset-0 w-full h-full object-cover pointer-events-none opacity-90 scale-[1.28] translate-y-[10%]"
+          style={{
+            WebkitMaskImage:
+              "linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.08) 8%, rgba(0,0,0,0.35) 20%, rgba(0,0,0,0.75) 34%, black 48%, black 82%, rgba(0,0,0,0.35) 94%, transparent 100%)",
+            maskImage:
+              "linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.08) 8%, rgba(0,0,0,0.35) 20%, rgba(0,0,0,0.75) 34%, black 48%, black 82%, rgba(0,0,0,0.35) 94%, transparent 100%)",
+          }}
+        />
         {/* Glows plata/gunmetal */}
         <div
           aria-hidden
@@ -86,7 +94,6 @@ const Hero = () => {
             filter: "blur(50px)",
           }}
         />
-
         <div
           aria-hidden
           className="pointer-events-none absolute -bottom-40 -right-24 w-[600px] h-[600px] rounded-full"
@@ -96,7 +103,6 @@ const Hero = () => {
             filter: "blur(60px)",
           }}
         />
-
         {/* Glow verde sutil */}
         <div
           aria-hidden
@@ -107,7 +113,6 @@ const Hero = () => {
             filter: "blur(80px)",
           }}
         />
-
         <div
           aria-hidden
           className="pointer-events-none absolute top-10 right-10 w-[280px] h-[280px] rounded-full"
@@ -117,9 +122,11 @@ const Hero = () => {
             filter: "blur(40px)",
           }}
         />
-
         {/* Overlay para legibilidad */}
-<div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/60 to-[#0A0A0A]" />      </div>
+        <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/60 to-[#0A0A0A]" />
+        <div className="absolute inset-x-0 bottom-0 h-32 pointer-events-none bg-gradient-to-t from-[#0A0A0A] to-transparent" />
+        {" "}
+      </div>
       {/* Contenido principal */}
       <div className="relative z-10 max-w-container-max mx-auto w-full">
         <div className="max-w-5xl mx-auto text-center flex flex-col items-center">
@@ -150,16 +157,15 @@ const Hero = () => {
             transition={{ duration: 0.8, delay: 0.5 }}
             className="font-body text-base md:text-lg text-text-secondary leading-7 md:leading-8 max-w-xl mx-auto mt-5 md:mt-6 opacity-90"
           >
-            Diseñamos y desarrollamos sitios web personalizados que transforman
-            ideas en soluciones digitales elegantes y de alto rendimiento.
+            Tu competencia ya tiene sitio web. Nosotros hacemos que el tuyo sea
+            el que vende. Sin plantillas, sin intermediarios, precio fijo.
           </motion.p>
 
           <motion.div
             initial={{ opacity: 0, y: 28 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.7 }}
-            className="flex flex-col sm:flex-row flex-wrap items-center justify-center gap-4 mt-7 md:mt-8"
-          >
+className="flex flex-row flex-wrap items-center justify-center gap-3 mt-7 md:mt-8"          >
             <motion.a
               href="#contacto"
               whileHover={{
@@ -186,7 +192,7 @@ const Hero = () => {
           </motion.div>
         </div>
       </div>
-      {/* Texto inferior */}
+       <div className="absolute inset-x-0 bottom-0 h-40 pointer-events-none bg-gradient-to-t from-[#0A0A0A] to-transparent z-10" />
     </section>
   );
 };
