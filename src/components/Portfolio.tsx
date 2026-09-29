@@ -5,6 +5,17 @@ import { ArrowUpRight, X, ChevronDown } from "lucide-react";
 
 const projects = [
   {
+    title: "EspaXio Inmobiliaria",
+    subtitle:
+      "Inmobiliaria y administración de condominios en CDMX y Edo. Méx.",
+    category: "Landing Page",
+    description:
+      "Sitio para una inmobiliaria con catálogo de propiedades en venta y renta, servicios de administración de condominios, gestión de créditos y contacto directo por WhatsApp.",
+    tags: ["Next.js", "Catálogo", "Responsive"],
+    image: "/projects/espaxio.jpg",
+    url: "https://www.espaxioinmobiliaria.com/es",
+  },
+  {
     title: "World Cup Nights",
     subtitle: "Reservas para experiencia nocturna en Guadalajara 2026",
     category: "Landing Page",
