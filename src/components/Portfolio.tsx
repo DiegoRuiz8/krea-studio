@@ -26,6 +26,16 @@ const projects = [
     url: "https://www.worldcupnights.lat/",
   },
   {
+    title: "Luis Felipe IV",
+    subtitle: "Historias musicales y comunidad en torno a las canciones",
+    category: "Sitio Personal",
+    description:
+      "Sitio para un creador de contenido musical con archivo de videos destacados, historias de la comunidad, buzón para dedicar canciones con búsqueda en Spotify y newsletter.",
+    tags: ["Next.js", "Spotify", "Newsletter"],
+    image: "/projects/luisfelipeiv.jpg",
+    url: "https://www.luisfelipeiv.com/",
+  },
+  {
     title: "Landana",
     subtitle: "Fotografía y video aéreo para bienes raíces",
     category: "Landing Page",
@@ -37,8 +47,10 @@ const projects = [
   },
 ];
 
-const mainProjects = projects.slice(0, 3);
-const extraProjects = projects.slice(3);
+const VISIBLE_LIMIT = 6;
+
+const mainProjects = projects.slice(0, VISIBLE_LIMIT);
+const extraProjects = projects.slice(VISIBLE_LIMIT);
 
 const ProjectCard = ({
   project,
@@ -175,9 +187,9 @@ const Portfolio = () => {
           {/* Grid principal — 3 cards */}
           <div
             className={`grid grid-cols-1 gap-6 ${
-              mainProjects.length < 3
-                ? "md:grid-cols-2 max-w-4xl mx-auto"
-                : "md:grid-cols-3"
+              mainProjects.length === 3 || mainProjects.length > 4
+                ? "md:grid-cols-3"
+                : "md:grid-cols-2 max-w-5xl mx-auto"
             }`}
           >
             {mainProjects.map((project, index) => (
@@ -255,7 +267,7 @@ const Portfolio = () => {
                       index={index}
                       hoveredIndex={hoveredIndex}
                       setHoveredIndex={setHoveredIndex}
-                      onClickIndex={index + 3}
+                      onClickIndex={index + VISIBLE_LIMIT}
                       onClick={(i) => {
                         setSelectedProject(i);
                         setHoveredIndex(null);
@@ -353,7 +365,7 @@ const Portfolio = () => {
                       setHoveredIndex={setHoveredIndex}
                       onClickIndex={index + 100}
                       onClick={(i) => {
-                        setSelectedProject(i - 100 + 3);
+                        setSelectedProject(i - 100 + VISIBLE_LIMIT);
                         setHoveredIndex(null);
                       }}
                     />
