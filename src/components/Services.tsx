@@ -4,33 +4,39 @@ import { useRef, useState } from "react";
 const services = [
   {
     number: "01",
-    title: "Diseño orientado a conversión",
+    title: "Sitios web que convierten",
     description:
-      "Diseñamos interfaces intuitivas y atractivas que mejoran la experiencia del usuario.",
+      "Diseño y código a medida. Rápido en celular, listo para Google y pensado para que te escriban.",
   },
   {
     number: "02",
-    title: "Desarrollo web a medida",
+    title: "Tiendas en línea que venden",
     description:
-      "Construimos aplicaciones web y móviles robustas con tecnologías modernas.",
+      "Catálogo claro y compra sencilla, sobre todo desde el celular.",
   },
   {
     number: "03",
-    title: "Tiendas en línea que venden",
+    title: "Identidad visual y marca",
     description:
-      "Creamos tiendas online optimizadas para maximizar tus conversiones y ventas.",
+      "Logo, colores y tipografía consistentes en tu sitio, tus redes y tu WhatsApp.",
   },
   {
     number: "04",
-    title: "Identidad visual y marca",
+    title: "Chatbots para WhatsApp e Instagram",
     description:
-      "Desarrollamos identidades visuales únicas que representan la esencia de tu marca.",
+      "Contestan las preguntas de siempre en segundos, a cualquier hora. Nadie se queda esperando.",
   },
   {
     number: "05",
-    title: "Posicionamiento SEO y velocidad",
+    title: "Recordatorios y seguimiento",
     description:
-      "Optimizamos tu sitio para posicionamiento en buscadores y velocidad de carga.",
+      "Recordatorios automáticos de citas y seguimiento a cada prospecto. Menos faltas, menos leads olvidados.",
+  },
+  {
+    number: "06",
+    title: "Respuesta a reseñas",
+    description:
+      "Cada reseña recibe respuesta a tiempo y con el tono de tu marca.",
   },
 ];
 
@@ -122,7 +128,7 @@ const Services = () => {
             variants={fadeUpVariants}
             className="font-display text-[clamp(38px,5vw,64px)] text-text-primary font-medium leading-tight tracking-[-0.03em]"
           >
-            Soluciones para tu Negocio
+            Del primer clic a la cita confirmada
           </motion.h2>
         </motion.div>
 

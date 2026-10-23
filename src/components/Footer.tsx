@@ -38,7 +38,7 @@ const Footer = () => {
               Krea<span className="text-accent">.</span>Studios
             </motion.a>
             <p className="font-body text-body-sm text-text-secondary max-w-xs">
-              Diseño web para negocios que quieren vender más.
+              Sitios web y automatización con IA para negocios que quieren vender más.
             </p>
           </div>
 

@@ -136,7 +136,7 @@ const Hero = () => {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="font-body text-label-caps text-accent uppercase tracking-[0.18em] mb-6 block"
           >
-            Agencia de Desarrollo Web
+            Sitios web + automatización con IA
           </motion.span>
 
           <motion.h1
@@ -145,9 +145,10 @@ const Hero = () => {
             transition={{ duration: 0.8, delay: 0.3 }}
             className="font-display font-semibold text-text-primary text-[clamp(44px,8.2vw,118px)] leading-[0.98] tracking-[-0.035em]"
           >
-            Creamos experiencias web{" "}
+            Sitios que convierten.
+            <br />
             <span className="text-accent italic font-medium">
-              que convierten
+              IA que atiende.
             </span>
           </motion.h1>
 
@@ -157,8 +158,9 @@ const Hero = () => {
             transition={{ duration: 0.8, delay: 0.5 }}
             className="font-body text-base md:text-lg text-text-secondary leading-7 md:leading-8 max-w-xl mx-auto mt-5 md:mt-6 opacity-90"
           >
-            Tu competencia ya tiene sitio web. Nosotros hacemos que el tuyo sea
-            el que vende. Sin plantillas, sin intermediarios, precio fijo.
+            Hacemos el sitio que te trae clientes. Y el sistema que les
+            contesta, les recuerda su cita y les da seguimiento. Sin
+            plantillas, sin intermediarios, precio fijo.
           </motion.p>
 
           <motion.div
