@@ -9,22 +9,22 @@ const Process = () => {
     {
       number: '01',
       title: 'Estrategia',
-      description: 'Entendemos tu negocio, tu cliente y el objetivo de la página.',
+      description: 'Entendemos tu negocio y vemos dónde pierdes clientes: antes o después de que te escriben.',
     },
     {
       number: '02',
       title: 'Diseño',
-      description: 'Creamos una propuesta visual alineada a tu marca y enfocada en conversión.',
+      description: 'Definimos el sitio, el flujo del chatbot o los dos. Alineado a tu marca.',
     },
     {
       number: '03',
       title: 'Desarrollo',
-      description: 'Construimos tu sitio rápido, limpio y adaptable a cualquier dispositivo.',
+      description: 'Construimos el sitio y conectamos las automatizaciones. Rápido, limpio y probado.',
     },
     {
       number: '04',
       title: 'Lanzamiento',
-      description: 'Publicamos tu web, revisamos detalles y la dejamos lista para vender.',
+      description: 'Publicamos, revisamos cada detalle y lo dejamos listo para vender y atender.',
     },
   ];
 

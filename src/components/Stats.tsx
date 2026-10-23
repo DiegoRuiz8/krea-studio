@@ -71,7 +71,7 @@ const Stats = () => {
     {
       value: 100,
       suffix: "%",
-      label: "Diseño a medida",
+      label: "Hecho a medida",
       duration: 2,
     },
     {
@@ -83,7 +83,7 @@ const Stats = () => {
     {
       value: 5,
       suffix: "",
-      label: "Días de entrega",
+      label: "Días para lanzar tu sitio",
       duration: 1.5,
     },
   ];

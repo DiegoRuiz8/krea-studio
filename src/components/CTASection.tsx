@@ -42,7 +42,7 @@ const CTASection = () => {
               transition={{ duration: 0.55, delay: 0.15 }}
               className="font-display text-headline-lg-mobile md:text-headline-lg text-text-primary mb-4 tracking-tight"
             >
-              Tu sitio actual<br className="hidden md:block" /> está perdiendo clientes.
+              Tu sitio o tu WhatsApp<br className="hidden md:block" /> están perdiendo clientes.
             </motion.h2>
 
             <motion.p
