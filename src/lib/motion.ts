@@ -40,12 +40,11 @@ export const useMediaQuery = (query: string) => {
 };
 
 /*
- * Progreso de la escena de Proceso, compartido entre el monolito 3D y el texto.
+ * Progreso de la escena de Proceso, compartido entre las capas 3D y el texto.
  * `p` es el avance del contenedor fijado: 0 cuando se fija, 1 cuando se suelta.
+ * Cada paso se completa en orden: el paso `i` termina en 1 antes que el `i + 1`.
  */
-export const processGather = (p: number) => clamp01((p + 0.15) / 0.75);
+export const PROCESS_STEPS = 4;
 
-export const PROCESS_NODES = 4;
-
-export const nodeProgress = (gather: number, index: number) =>
-  clamp01(gather * 1.6 - index * 0.2);
+export const processStep = (p: number, index: number) =>
+  clamp01(((p + 0.1) / 0.85) * PROCESS_STEPS - index);
