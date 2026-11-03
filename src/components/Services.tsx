@@ -1,211 +1,99 @@
-import { motion, useInView } from "framer-motion";
-import { useRef, useState } from "react";
+import { motion } from "framer-motion";
+import { useState } from "react";
+import { EASE_OUT } from "../lib/motion";
+import { SplitWords } from "./Reveal";
 
+/* `layer` es la lámina 3D que se resalta: 0 interfaz, 1 marca, 2 automatización */
 const services = [
   {
-    number: "01",
     title: "Sitios web que convierten",
     description:
       "Diseño y código a medida. Rápido en celular, listo para Google y pensado para que te escriban.",
+    layer: 0,
   },
   {
-    number: "02",
     title: "Tiendas en línea que venden",
     description:
       "Catálogo claro y compra sencilla, sobre todo desde el celular.",
+    layer: 0,
   },
   {
-    number: "03",
     title: "Identidad visual y marca",
     description:
       "Logo, colores y tipografía consistentes en tu sitio, tus redes y tu WhatsApp.",
+    layer: 1,
   },
   {
-    number: "04",
     title: "Chatbots para WhatsApp e Instagram",
     description:
       "Contestan las preguntas de siempre en segundos, a cualquier hora. Nadie se queda esperando.",
+    layer: 2,
   },
   {
-    number: "05",
     title: "Recordatorios y seguimiento",
     description:
       "Recordatorios automáticos de citas y seguimiento a cada prospecto. Menos faltas, menos leads olvidados.",
+    layer: 2,
   },
   {
-    number: "06",
     title: "Respuesta a reseñas",
     description:
       "Cada reseña recibe respuesta a tiempo y con el tono de tu marca.",
+    layer: 2,
   },
 ];
 
-const containerVariants = {
-  hidden: {},
-  visible: {
-    transition: {
-      staggerChildren: 0.1,
-      delayChildren: 0.15,
-    },
-  },
-};
-
-const fadeUpVariants = {
-  hidden: {
-    opacity: 0,
-    y: 30,
-    filter: "blur(8px)",
-  },
-  visible: {
-    opacity: 1,
-    y: 0,
-    filter: "blur(0px)",
-    transition: {
-      duration: 0.7,
-      ease: [0.22, 1, 0.36, 1],
-    },
-  },
-};
-
 const Services = () => {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-120px" });
-  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const [active, setActive] = useState(0);
 
   return (
-    <section
-      id="servicios"
-      ref={ref}
-      className="relative overflow-hidden pt-20 pb-10 md:pt-28 md:pb-14 px-margin-mobile md:px-margin-desktop bg-[#0A0A0A]"
-    >
-      {/* Glow verde sutil */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute top-32 right-[-180px] h-[340px] w-[340px] rounded-full opacity-30"
-        style={{
-          background:
-            "radial-gradient(closest-side, rgba(191,255,11,0.12), transparent 70%)",
-          filter: "blur(90px)",
-        }}
-      />
+    <section id="servicios" className="relative z-10 grid px-gutter pb-32 pt-24 md:grid-cols-axis md:pb-28 md:pt-40">
+      <div className="md:pr-10">
+        <div
+          data-anchor="services"
+          data-active={active}
+          aria-hidden="true"
+          className="h-[36svh] md:sticky md:top-[12svh] md:h-[76svh]"
+        />
+      </div>
 
-      {/* Malla visible de fondo */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 opacity-80"
-        style={{
-          backgroundImage: `
-      linear-gradient(rgba(255,255,255,0.055) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255,255,255,0.055) 1px, transparent 1px)
-    `,
-          backgroundSize: "76px 76px",
-          backgroundPosition: "center center",
-          WebkitMaskImage:
-            "linear-gradient(to bottom, transparent 0%, black 14%, black 86%, transparent 100%)",
-          maskImage:
-            "linear-gradient(to bottom, transparent 0%, black 14%, black 86%, transparent 100%)",
-        }}
-      />
+      <div>
+        <SplitWords
+          text="Del primer clic a la cita confirmada"
+          className="max-w-[16ch] font-serif text-[clamp(42px,5vw,92px)] leading-[0.95] tracking-[-0.02em] text-ink"
+        />
 
-      {/* Fade para que no corte con las secciones */}
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#0A0A0A] via-transparent to-transparent" />
-      <div className="relative z-10 max-w-6xl mx-auto">
-        {/* Header */}
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          animate={isInView ? "visible" : "hidden"}
-          className="text-center mb-14 md:mb-16"
-        >
-          <motion.span
-            variants={fadeUpVariants}
-            className="font-body text-label-caps text-accent uppercase tracking-widest mb-5 block"
-          >
-            • Servicios
-          </motion.span>
-
-          <motion.h2
-            variants={fadeUpVariants}
-            className="font-display text-[clamp(38px,5vw,64px)] text-text-primary font-medium leading-tight tracking-[-0.03em]"
-          >
-            Del primer clic a la cita confirmada
-          </motion.h2>
-        </motion.div>
-
-        {/* Services */}
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          animate={isInView ? "visible" : "hidden"}
-          className="relative"
-        >
+        <ul className="mt-12 md:mt-20">
           {services.map((service, index) => (
-            <motion.div
-              key={service.number}
-              variants={fadeUpVariants}
-              onMouseEnter={() => setHoveredIndex(index)}
-              onMouseLeave={() => setHoveredIndex(null)}
-              className="group relative cursor-pointer py-5 md:py-10 transition-colors duration-300"
+            <motion.li
+              key={service.title}
+              initial={{ opacity: 0, y: 28 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              onMouseEnter={() => setActive(service.layer)}
+              viewport={{ once: true, margin: "0px 0px -10% 0px" }}
+              transition={{ duration: 0.8, ease: EASE_OUT, delay: (index % 2) * 0.06 }}
+              className="group relative isolate py-6 md:py-9"
             >
-              {/* Hover background */}
-              <motion.div
-                initial={false}
-                animate={{
-                  opacity: hoveredIndex === index ? 1 : 0,
-                }}
-                transition={{ duration: 0.3 }}
-                className="absolute inset-x-[-24px] inset-y-1 rounded-2xl bg-gradient-to-r from-white/[0.04] via-white/[0.015] to-transparent"
+              {/* Franja central de la pantalla: la fila que pasa por ahí resalta su lámina */}
+              <motion.span
+                aria-hidden="true"
+                className="absolute inset-0 -z-20"
+                onViewportEnter={() => setActive(service.layer)}
+                viewport={{ margin: "-45% 0px -45% 0px" }}
               />
-
-              {/* Línea verde hover */}
-              <motion.div
-                initial={false}
-                animate={{
-                  scaleX: hoveredIndex === index ? 1 : 0,
-                  opacity: hoveredIndex === index ? 1 : 0,
-                }}
-                transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-                className="absolute left-0 top-0 h-px w-full origin-left bg-gradient-to-r from-accent via-accent/40 to-transparent"
+              <span
+                aria-hidden="true"
+                className="absolute inset-y-0 -left-4 -right-4 -z-10 origin-left scale-x-0 bg-surface transition-transform duration-500 ease-out group-hover:scale-x-100 md:-left-8 md:-right-8"
               />
-
-              <div className="relative z-10 flex flex-col gap-5 md:grid md:grid-cols-[80px_1fr_420px] md:items-center md:gap-10">
-                <motion.span
-                  animate={{
-                    color: hoveredIndex === index ? "#BFFF0B" : "#6B6B6B",
-                  }}
-                  transition={{ duration: 0.3 }}
-                  className="font-display text-lg md:text-xl font-medium"
-                >
-                  {service.number}.
-                </motion.span>
-
-                <motion.h3
-                  animate={{
-                    x: hoveredIndex === index ? 8 : 0,
-                  }}
-                  transition={{
-                    duration: 0.35,
-                    ease: [0.22, 1, 0.36, 1],
-                  }}
-                  className="font-display text-[clamp(32px,4vw,54px)] text-text-primary font-normal leading-[1.05] tracking-[-0.025em]"
-                >
-                  {service.title}
-                </motion.h3>
-
-                <motion.p
-                  animate={{
-                    opacity: hoveredIndex === index ? 1 : 0.72,
-                    x: hoveredIndex === index ? 0 : 8,
-                  }}
-                  transition={{ duration: 0.35 }}
-                  className="hidden md:block font-body text-body-md text-white/60 max-w-md leading-relaxed font-medium"
-                >
-                  {service.description}
-                </motion.p>
-              </div>
-            </motion.div>
+              <h3 className="text-[clamp(24px,2.3vw,38px)] font-semibold leading-[1.1] tracking-[-0.02em] text-ink transition-transform duration-500 ease-out group-hover:translate-x-2">
+                {service.title}
+              </h3>
+              <p className="mt-3 max-w-[52ch] text-base leading-relaxed text-ink md:text-lg">
+                {service.description}
+              </p>
+            </motion.li>
           ))}
-        </motion.div>
+        </ul>
       </div>
     </section>
   );
