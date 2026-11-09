@@ -1,3 +1,5 @@
+import { Suspense, lazy, useEffect } from "react";
+import { MotionConfig } from "framer-motion";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import Services from "./components/Services";
@@ -6,12 +8,20 @@ import Portfolio from "./components/Portfolio";
 import Stats from "./components/Stats";
 import CTASection from "./components/CTASection";
 import Footer from "./components/Footer";
+import { startSmoothScroll } from "./lib/motion";
+
+const Monolith = lazy(() => import("./components/Monolith"));
 
 function App() {
+  useEffect(() => startSmoothScroll(), []);
+
   return (
-    <div className="min-h-screen">
+    <MotionConfig reducedMotion="user">
       <Navbar />
-      <main>
+      <Suspense fallback={null}>
+        <Monolith />
+      </Suspense>
+      <main className="relative">
         <Hero />
         <Services />
         <Stats />
@@ -20,7 +30,7 @@ function App() {
         <CTASection />
       </main>
       <Footer />
-    </div>
+    </MotionConfig>
   );
 }
 

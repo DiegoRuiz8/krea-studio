@@ -1,84 +1,81 @@
-@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&display=swap");
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  --accent-glow: rgba(191, 255, 11, 0.3);
+  /* Canales RGB para que Tailwind pueda aplicar opacidad */
+  --ground: 10 10 10;
+  --surface: 20 20 19;
+  --surface-raised: 30 30 28;
+  --ink: 242 242 236;
+  --ink-soft: 166 166 158;
+  --accent: 191 255 11;
+  --on-accent: 10 10 10;
+  /* Bloques del monolito */
+  --block: 38 38 35;
+  --block-light: 255 255 245;
+
+  --gutter: clamp(20px, 3.4vw, 56px);
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+
+  color-scheme: dark;
 }
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  font-family: "Inter", sans-serif;
-  background-color: #0a0a0a;
-  color: #ffffff;
-  overflow-x: hidden;
-  position: relative;
-}
-
-/* Grid pattern MÁS VISIBLE Y PERSISTENTE */
-/* Grid pattern MUY VISIBLE */
-/* FONDO: Negro sólido en body */
-body {
-  font-family: 'Inter', sans-serif;
-  background-color: #0A0A0A;
-  color: #FFFFFF;
-  overflow-x: hidden;
-  position: relative;
-}
-
-
-/* Asegurar que el contenido esté por encima de los fondos */
-#root {
-  position: relative;
-  z-index: 1;
-}
-
-/* Smooth scrolling */
 html {
-  scroll-behavior: smooth;
+  background: rgb(var(--ground));
+  -webkit-text-size-adjust: 100%;
 }
 
-/* Custom scrollbar para navegadores webkit */
-::-webkit-scrollbar {
-  width: 10px;
+html.lenis,
+html.lenis body {
+  height: auto;
 }
 
-::-webkit-scrollbar-track {
-  background: #0a0a0a;
+.lenis.lenis-stopped {
+  overflow: clip;
 }
 
-::-webkit-scrollbar-thumb {
-  background: #262626;
-  border-radius: 5px;
+body {
+  font-family: "Archivo", system-ui, sans-serif;
+  background: rgb(var(--ground));
+  color: rgb(var(--ink));
+  overflow-x: clip;
+  -webkit-font-smoothing: antialiased;
 }
 
-::-webkit-scrollbar-thumb:hover {
-  background: #bfff0b;
+::selection {
+  background: rgb(var(--accent));
+  color: rgb(var(--on-accent));
 }
 
-/* Clases de utilidad personalizadas */
+a,
+button {
+  touch-action: manipulation;
+}
+
+:focus-visible {
+  outline: 2px solid rgb(var(--accent));
+  outline-offset: 3px;
+}
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;
   }
 
-  .glow-accent {
-    box-shadow: 0 0 20px var(--accent-glow);
+  /* Archivo expandida para titulares */
+  .font-wide {
+    font-stretch: 118%;
   }
 
-  .glow-accent-md {
-    box-shadow: 0 0 40px var(--accent-glow);
+  .font-condensed {
+    font-stretch: 80%;
   }
 
-  .glow-accent-lg {
-    box-shadow: 0 0 60px var(--accent-glow);
+  .tabular {
+    font-variant-numeric: tabular-nums;
   }
 
   .scrollbar-hide {
@@ -91,146 +88,12 @@ html {
   }
 }
 
-/* Animaciones personalizadas */
-@keyframes fade-in {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes slide-up {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes slide-down {
-  from {
-    opacity: 0;
-    transform: translateY(-30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes scale-in {
-  from {
-    opacity: 0;
-    transform: scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-/* Animaciones de loading para números de estadísticas */
-@keyframes pulse-glow {
-  0%,
-  100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.5;
-  }
-}
-
-/* Estilos para elementos interactivos */
-button,
-a {
-  transition: all 0.3s ease;
-}
-
-button:focus-visible,
-a:focus-visible {
-  outline: 2px solid #bfff0b;
-  outline-offset: 2px;
-}
-
-/* Animaciones para formas geométricas flotantes */
-@keyframes float-slow {
-  0%,
-  100% {
-    transform: translate(0, 0) rotate(0deg);
-  }
-  33% {
-    transform: translate(30px, -30px) rotate(120deg);
-  }
-  66% {
-    transform: translate(-20px, 20px) rotate(240deg);
-  }
-}
-
-@keyframes float-medium {
-  0%,
-  100% {
-    transform: translate(0, 0) rotate(0deg);
-  }
-  50% {
-    transform: translate(-40px, 40px) rotate(180deg);
-  }
-}
-
-@keyframes float-fast {
-  0%,
-  100% {
-    transform: translate(0, 0) rotate(0deg);
-  }
-  25% {
-    transform: translate(20px, -40px) rotate(90deg);
-  }
-  50% {
-    transform: translate(-30px, -20px) rotate(180deg);
-  }
-  75% {
-    transform: translate(40px, 30px) rotate(270deg);
-  }
-}
-
-@keyframes pulse-glow-shape {
-  0%,
-  100% {
-    box-shadow: 0 0 20px rgba(191, 255, 11, 0.3);
-    opacity: 0.6;
-  }
-  50% {
-    box-shadow: 0 0 40px rgba(191, 255, 11, 0.6);
-    opacity: 0.8;
-  }
-}
-
-
-
-@keyframes stats-particle-drift {
-  from {
-    background-position: 0 0, center;
-    transform: perspective(900px) rotateX(58deg) translateY(8px);
-  }
-
-  to {
-    background-position: 28px -22px, center;
-    transform: perspective(900px) rotateX(58deg) translateY(-10px);
-  }
-}
-
-@keyframes stats-fallback-glow {
-  from {
-    opacity: 0.45;
-    transform: scale(0.98);
-  }
-
-  to {
-    opacity: 0.75;
-    transform: scale(1.04);
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }

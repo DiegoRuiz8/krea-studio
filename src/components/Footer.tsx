@@ -1,91 +1,84 @@
-import { motion } from 'framer-motion';
-import { Instagram, Mail } from 'lucide-react';
+import { motion } from "framer-motion";
+import { Instagram, Mail } from "lucide-react";
+import { EASE_OUT } from "../lib/motion";
 
-const Footer = () => {
-  const contactLinks = [
-    {
-      icon: Instagram,
-      href: 'https://www.instagram.com/studioskrea?igsh=dHFtaGdiYnU5OTR0',
-      label: 'Instagram',
-      external: true,
-    },
-    {
-      icon: Mail,
-      href: 'mailto:hola@studioskrea.com',
-      label: 'Email',
-      external: false,
-    },
-  ];
+const contactLinks = [
+  {
+    icon: Instagram,
+    href: "https://www.instagram.com/studioskrea?igsh=dHFtaGdiYnU5OTR0",
+    label: "Instagram",
+    external: true,
+  },
+  {
+    icon: Mail,
+    href: "mailto:hola@studioskrea.com",
+    label: "Email",
+    external: false,
+  },
+];
 
-  const navLinks = [
-    { name: 'Servicios', href: '#servicios' },
-    { name: 'Portfolio', href: '#portfolio' },
-    { name: 'Proceso', href: '#proceso' },
-    { name: 'Contacto', href: '#contacto' },
-  ];
+const navLinks = [
+  { name: "Servicios", href: "#servicios" },
+  { name: "Portfolio", href: "#portfolio" },
+  { name: "Proceso", href: "#proceso" },
+  { name: "Contacto", href: "#contacto" },
+];
 
-  return (
-    <footer className="bg-[#0A0A0A] border-t border-white/10">
-      <div className="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
-        <div className="py-7 md:py-10 flex flex-col md:flex-row justify-between gap-6">
-          {/* Brand */}
-          <div>
-            <motion.a
-              href="#"
-              whileHover={{ opacity: 0.8 }}
-              className="font-display text-headline-sm font-bold text-text-primary inline-block mb-2"
+const Footer = () => (
+  <footer className="relative z-10 overflow-hidden bg-surface px-gutter pt-16 md:pt-24">
+    <div className="flex flex-col justify-between gap-10 md:flex-row">
+      <p className="max-w-xs text-lg text-ink">
+        Sitios web y automatización con IA para negocios que quieren vender más.
+      </p>
+
+      <div className="flex flex-col gap-6 md:items-end">
+        <nav className="flex flex-wrap gap-x-7 gap-y-2">
+          {navLinks.map((link) => (
+            <a
+              key={link.name}
+              href={link.href}
+              className="text-base text-ink transition-colors duration-200 hover:text-accent"
             >
-              Krea<span className="text-accent">.</span>Studios
-            </motion.a>
-            <p className="font-body text-body-sm text-text-secondary max-w-xs">
-              Sitios web y automatización con IA para negocios que quieren vender más.
-            </p>
-          </div>
-
-          {/* Nav + iconos */}
-          <div className="flex flex-col md:items-end gap-4">
-            <nav className="flex flex-wrap gap-x-5 gap-y-2">
-              {navLinks.map((link) => (
-                <motion.a
-                  key={link.name}
-                  href={link.href}
-                  whileHover={{ color: '#BFFF0B' }}
-                  className="font-body text-sm text-text-secondary transition-colors"
-                >
-                  {link.name}
-                </motion.a>
-              ))}
-            </nav>
-            <div className="flex gap-4">
-              {contactLinks.map((link) => {
-                const Icon = link.icon;
-                return (
-                  <motion.a
-                    key={link.label}
-                    href={link.href}
-                    aria-label={link.label}
-                    target={link.external ? '_blank' : undefined}
-                    rel={link.external ? 'noopener noreferrer' : undefined}
-                    whileHover={{ y: -2, color: '#BFFF0B' }}
-                    whileTap={{ scale: 0.96 }}
-                    className="text-text-secondary transition-colors"
-                  >
-                    <Icon className="w-5 h-5" />
-                  </motion.a>
-                );
-              })}
-            </div>
-          </div>
-        </div>
-
-        <div className="py-4 border-t border-white/10">
-          <p className="font-body text-xs text-text-secondary">
-            © {new Date().getFullYear()} Krea.Studios. Todos los derechos reservados.
-          </p>
+              {link.name}
+            </a>
+          ))}
+        </nav>
+        <div className="flex gap-2">
+          {contactLinks.map((link) => {
+            const Icon = link.icon;
+            return (
+              <a
+                key={link.label}
+                href={link.href}
+                aria-label={link.label}
+                target={link.external ? "_blank" : undefined}
+                rel={link.external ? "noopener noreferrer" : undefined}
+                className="flex h-11 w-11 items-center justify-center bg-surface-raised text-ink transition-colors duration-200 hover:bg-accent hover:text-on-accent"
+              >
+                <Icon className="h-5 w-5" />
+              </a>
+            );
+          })}
         </div>
       </div>
-    </footer>
-  );
-};
+    </div>
+
+    <a href="#" aria-label="Krea.Studios, volver arriba" className="mt-16 block overflow-hidden md:mt-24">
+      <motion.span
+        initial={{ y: "60%" }}
+        whileInView={{ y: "0%" }}
+        viewport={{ once: true }}
+        transition={{ duration: 1.2, ease: EASE_OUT }}
+        className="block whitespace-nowrap text-[clamp(48px,12.4vw,240px)] font-extrabold leading-[0.8] tracking-[-0.06em] text-ink font-wide"
+      >
+        Krea<span className="text-accent">.</span>Studios
+      </motion.span>
+    </a>
+
+    <p className="py-6 text-sm text-ink-soft">
+      © {new Date().getFullYear()} Krea.Studios. Todos los derechos reservados.
+    </p>
+  </footer>
+);
 
 export default Footer;

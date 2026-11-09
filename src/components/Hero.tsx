@@ -1,199 +1,92 @@
-import { useEffect, useRef } from "react";
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useRef } from "react";
+import { EASE_OUT } from "../lib/motion";
 
-const VIDEO_URL = "/videos/bg-video-hero-section.mp4";
-const POSTER_URL = "/videos/particle-wave-poster.webp";
-
-function useVideoFadeLoop() {
-  const ref = useRef<HTMLVideoElement>(null);
-
-  useEffect(() => {
-    const video = ref.current;
-    if (!video) return;
-
-    video.style.opacity = "0";
-
-    let raf = 0;
-    const FADE = 0.5;
-
-    const tick = () => {
-      if (!video.duration || Number.isNaN(video.duration)) {
-        raf = requestAnimationFrame(tick);
-        return;
-      }
-
-      const t = video.currentTime;
-      const d = video.duration;
-
-      let opacity = 1;
-
-      if (t < FADE) {
-        opacity = t / FADE;
-      } else if (t > d - FADE) {
-        opacity = Math.max(0, (d - t) / FADE);
-      }
-
-      video.style.opacity = String(opacity);
-      raf = requestAnimationFrame(tick);
-    };
-
-    const onEnded = () => {
-      video.style.opacity = "0";
-
-      window.setTimeout(() => {
-        video.currentTime = 0;
-        video.play().catch(() => {});
-      }, 100);
-    };
-
-    video.addEventListener("ended", onEnded);
-    video.play().catch(() => {});
-    raf = requestAnimationFrame(tick);
-
-    return () => {
-      cancelAnimationFrame(raf);
-      video.removeEventListener("ended", onEnded);
-    };
-  }, []);
-
-  return ref;
-}
+const rise = (delay: number) => ({
+  initial: { opacity: 0, y: 28 },
+  animate: { opacity: 1, y: 0 },
+  transition: { duration: 0.9, delay, ease: EASE_OUT },
+});
 
 const Hero = () => {
-  const videoRef = useVideoFadeLoop();
+  const ref = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
+  const textY = useTransform(scrollYProgress, [0, 1], ["0%", "-18%"]);
 
   return (
-<section className="relative min-h-[100svh] flex items-center justify-center overflow-clip bg-[#0A0A0A] px-5 sm:px-6 pt-24 md:pt-24 pb-8 md:pb-16">      {" "}
-      {/* Background video */}
-      <div className="absolute inset-0 z-0 overflow-hidden">
-        <video
-          ref={videoRef}
-          src={VIDEO_URL}
-          poster={POSTER_URL}
-          autoPlay
-          loop
-          muted
-          playsInline
-          preload="auto"
-          aria-hidden="true"
-          className="absolute inset-0 w-full h-full object-cover pointer-events-none opacity-90 scale-[1.28] translate-y-[10%]"
-          style={{
-            WebkitMaskImage:
-              "linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.08) 8%, rgba(0,0,0,0.35) 20%, rgba(0,0,0,0.75) 34%, black 48%, black 82%, rgba(0,0,0,0.35) 94%, transparent 100%)",
-            maskImage:
-              "linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.08) 8%, rgba(0,0,0,0.35) 20%, rgba(0,0,0,0.75) 34%, black 48%, black 82%, rgba(0,0,0,0.35) 94%, transparent 100%)",
-          }}
-        />
-        {/* Glows plata/gunmetal */}
-        <div
-          aria-hidden
-          className="pointer-events-none absolute -top-32 -left-32 w-[520px] h-[520px] rounded-full"
-          style={{
-            background:
-              "radial-gradient(closest-side, rgba(166,169,173,0.18), transparent 70%)",
-            filter: "blur(50px)",
-          }}
-        />
-        <div
-          aria-hidden
-          className="pointer-events-none absolute -bottom-40 -right-24 w-[600px] h-[600px] rounded-full"
-          style={{
-            background:
-              "radial-gradient(closest-side, rgba(58,61,64,0.55), transparent 70%)",
-            filter: "blur(60px)",
-          }}
-        />
-        {/* Glow verde sutil */}
-        <div
-          aria-hidden
-          className="pointer-events-none absolute top-1/2 left-1/2 w-[680px] h-[420px] -translate-x-1/2 -translate-y-1/2 rounded-full"
-          style={{
-            background:
-              "radial-gradient(closest-side, rgba(198,255,0,0.12), transparent 70%)",
-            filter: "blur(80px)",
-          }}
-        />
-        <div
-          aria-hidden
-          className="pointer-events-none absolute top-10 right-10 w-[280px] h-[280px] rounded-full"
-          style={{
-            background:
-              "radial-gradient(closest-side, rgba(191,255,11,0.10), transparent 70%)",
-            filter: "blur(40px)",
-          }}
-        />
-        {/* Overlay para legibilidad */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/60 to-[#0A0A0A]" />
-        <div className="absolute inset-x-0 bottom-0 h-32 pointer-events-none bg-gradient-to-t from-[#0A0A0A] to-transparent" />
-        {" "}
-      </div>
-      {/* Contenido principal */}
-      <div className="relative z-10 max-w-container-max mx-auto w-full">
-        <div className="max-w-5xl mx-auto text-center flex flex-col items-center">
-          <motion.span
-            initial={{ opacity: 0, y: 18 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="font-body text-label-caps text-accent uppercase tracking-[0.18em] mb-6 block"
-          >
-            Sitios web + automatización con IA
-          </motion.span>
+    <section
+      ref={ref}
+      data-scene="hero"
+      className="relative z-10 grid min-h-[100svh] grid-rows-[auto_1fr_auto] px-gutter pb-8 pt-24 md:pb-12 md:pt-28"
+    >
+      <motion.p
+        {...rise(0.2)}
+        className="max-w-[18ch] text-[15px] font-medium leading-snug text-ink md:text-lg"
+      >
+        Sitios web + automatización con IA
+        <span className="block text-ink-soft">Guadalajara, MX</span>
+      </motion.p>
 
-          <motion.h1
-            initial={{ opacity: 0, y: 28 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
-            className="font-display font-semibold text-text-primary text-[clamp(44px,8.2vw,118px)] leading-[0.98] tracking-[-0.035em]"
-          >
-            Sitios que convierten.
-            <br />
-            <span className="text-accent italic font-medium">
+      {/* Hueco que ocupa el monolito 3D */}
+      <div
+        data-anchor="hero"
+        aria-hidden="true"
+        className="mx-auto my-4 h-full min-h-[34svh] w-full max-w-[560px] md:absolute md:right-gutter md:top-[9svh] md:my-0 md:h-[50svh] md:w-[42vw] md:max-w-none"
+      />
+
+      <motion.div style={{ y: textY }} className="self-end">
+        <h1 className="font-extrabold leading-[0.92] tracking-[-0.045em] text-ink text-[clamp(44px,7.4vw,136px)] md:font-wide">
+          <span className="block overflow-hidden pb-[0.06em]">
+            <motion.span
+              className="block"
+              initial={{ y: "105%" }}
+              animate={{ y: "0%" }}
+              transition={{ duration: 1.1, delay: 0.35, ease: EASE_OUT }}
+            >
+              Sitios que convierten.
+            </motion.span>
+          </span>
+          <span className="block overflow-hidden pb-[0.06em]">
+            <motion.span
+              className="block"
+              initial={{ y: "105%" }}
+              animate={{ y: "0%" }}
+              transition={{ duration: 1.1, delay: 0.47, ease: EASE_OUT }}
+            >
               IA que atiende.
-            </span>
-          </motion.h1>
+            </motion.span>
+          </span>
+        </h1>
 
+        <div className="mt-6 flex flex-col gap-6 md:mt-10 md:flex-row md:items-end md:justify-between">
           <motion.p
-            initial={{ opacity: 0, y: 28 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.5 }}
-            className="font-body text-base md:text-lg text-text-secondary leading-7 md:leading-8 max-w-xl mx-auto mt-5 md:mt-6 opacity-90"
+            {...rise(0.7)}
+            className="max-w-[46ch] text-base leading-relaxed text-ink md:text-lg"
           >
             Hacemos el sitio que te trae clientes. Y el sistema que les
             contesta, les recuerda su cita y les da seguimiento. Sin
             plantillas, sin intermediarios, precio fijo.
           </motion.p>
 
-          <motion.div
-            initial={{ opacity: 0, y: 28 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.7 }}
-className="flex flex-row flex-wrap items-center justify-center gap-3 mt-7 md:mt-8"          >
-            <motion.a
+          <motion.div {...rise(0.82)} className="flex flex-wrap gap-3">
+            <a
               href="#contacto"
-              whileHover={{
-                scale: 1.04,
-                boxShadow: "0 0 30px rgba(191, 255, 11, 0.35)",
-              }}
-              whileTap={{ scale: 0.96 }}
-className="rounded-full bg-accent hover:bg-accent-hover text-[#0A0A0A] px-5 md:px-8 py-4 font-body font-semibold tracking-wide uppercase text-xs md:text-sm transition-all duration-300"            >
+              className="group inline-flex items-center gap-3 bg-accent px-5 py-4 text-[15px] font-semibold text-on-accent transition-transform duration-200 ease-out active:scale-[0.97] md:px-7"
+            >
               Agendar Consulta
-            </motion.a>
-
-            <motion.a
+              <span aria-hidden="true" className="transition-transform duration-300 ease-out group-hover:translate-x-1">
+                →
+              </span>
+            </a>
+            <a
               href="#portfolio"
-              whileHover={{
-                scale: 1.04,
-                borderColor: "#BFFF0B",
-              }}
-              whileTap={{ scale: 0.96 }}
-className="rounded-full border border-white/20 bg-white/[0.03] hover:bg-white/[0.07] hover:border-accent text-text-primary px-5 md:px-8 py-4 font-body font-semibold tracking-wide uppercase text-xs md:text-sm transition-all duration-300 backdrop-blur-sm"
+              className="inline-flex items-center bg-surface-raised px-5 py-4 text-[15px] font-semibold text-ink transition-[transform,background-color,color] duration-200 ease-out hover:bg-ink hover:text-ground active:scale-[0.97] md:px-7"
             >
               Ver Portfolio
-            </motion.a>
+            </a>
           </motion.div>
         </div>
-      </div>
-       <div className="absolute inset-x-0 bottom-0 h-40 pointer-events-none bg-gradient-to-t from-[#0A0A0A] to-transparent z-10" />
+      </motion.div>
     </section>
   );
 };
