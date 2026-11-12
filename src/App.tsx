@@ -8,6 +8,7 @@ import Portfolio from "./components/Portfolio";
 import Stats from "./components/Stats";
 import CTASection from "./components/CTASection";
 import Footer from "./components/Footer";
+import { WhatsAppButton } from "./components/WhatsAppButton";
 import { startSmoothScroll } from "./lib/motion";
 
 const Monolith = lazy(() => import("./components/Monolith"));
@@ -30,6 +31,7 @@ function App() {
         <CTASection />
       </main>
       <Footer />
+      <WhatsAppButton />
     </MotionConfig>
   );
 }
