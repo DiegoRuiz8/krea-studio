@@ -1,8 +1,12 @@
 import { motion } from "framer-motion";
-import { Instagram, Mail } from "lucide-react";
+import { Instagram, Mail, MessageCircle } from "lucide-react";
 import { EASE_OUT } from "../lib/motion";
+import { whatsappHref } from "./WhatsAppButton";
 
 const contactLinks = [
+  ...(whatsappHref
+    ? [{ icon: MessageCircle, href: whatsappHref, label: "WhatsApp", external: true }]
+    : []),
   {
     icon: Instagram,
     href: "https://www.instagram.com/studioskrea?igsh=dHFtaGdiYnU5OTR0",
@@ -75,9 +79,12 @@ const Footer = () => (
       </motion.span>
     </a>
 
-    <p className="py-6 text-sm text-ink-soft">
-      © {new Date().getFullYear()} Krea.Studios. Todos los derechos reservados.
-    </p>
+    <div className="flex flex-col gap-2 py-6 text-sm text-ink-soft sm:flex-row sm:justify-between">
+      <p>© {new Date().getFullYear()} Krea.Studios. Todos los derechos reservados.</p>
+      <a href="/privacidad" className="transition-colors duration-200 hover:text-accent">
+        Aviso de privacidad
+      </a>
+    </div>
   </footer>
 );
 
