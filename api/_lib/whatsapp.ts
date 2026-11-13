@@ -32,10 +32,19 @@ async function postToGraph(payload: Record<string, unknown>): Promise<void> {
   }
 }
 
+/**
+ * Meta entrega los móviles de México como 521 + 10 dígitos, pero la lista de
+ * destinatarios del número de prueba los guarda como 52 + 10 dígitos y rechaza
+ * el formato con el 1 (error 131030). Para enviar se usa el formato sin el 1.
+ */
+export function toSendFormat(waId: string): string {
+  return waId.replace(/^521(\d{10})$/, "52$1");
+}
+
 export function sendText(to: string, body: string): Promise<void> {
   return postToGraph({
     recipient_type: "individual",
-    to,
+    to: toSendFormat(to),
     type: "text",
     text: { body, preview_url: false },
   });
