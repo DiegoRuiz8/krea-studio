@@ -1,78 +1,125 @@
-import { motion } from "framer-motion";
-import { EASE_OUT } from "../lib/motion";
+import { motion, useInView } from "framer-motion";
+import { useRef } from "react";
+import { FieldEdge } from "./FieldEdge";
+import { Phone, type ScreenId } from "./Phone";
 import { SplitWords } from "./Reveal";
 
-const services = [
+interface Service {
+  title: string;
+  description: string;
+  screen: ScreenId;
+}
+
+const siteServices: Service[] = [
   {
     title: "Sitios web que convierten",
     description:
       "Diseño y código a medida. Rápido en celular, listo para Google y pensado para que te escriban.",
+    screen: "sitio",
   },
   {
     title: "Tiendas en línea que venden",
     description:
       "Catálogo claro y compra sencilla, sobre todo desde el celular.",
+    screen: "tienda",
   },
-  {
-    title: "Identidad visual y marca",
-    description:
-      "Logo, colores y tipografía consistentes en tu sitio, tus redes y tu WhatsApp.",
-  },
+];
+
+const automationServices: Service[] = [
   {
     title: "Chatbots para WhatsApp e Instagram",
     description:
       "Contestan las preguntas de siempre en segundos, a cualquier hora. Nadie se queda esperando.",
+    screen: "chatbot",
   },
   {
     title: "Recordatorios y seguimiento",
     description:
       "Recordatorios automáticos de citas y seguimiento a cada prospecto. Menos faltas, menos leads olvidados.",
+    screen: "recordatorio",
   },
   {
     title: "Respuesta a reseñas",
     description:
       "Cada reseña recibe respuesta a tiempo y con el tono de tu marca.",
+    screen: "resena",
   },
 ];
 
-const Services = () => (
-  <section
-    id="servicios"
-    className="relative z-10 px-gutter pb-32 pt-32 md:pb-48 md:pt-56"
+/* En celular cada servicio lleva su propia pantalla, que arranca al entrar en vista */
+const InlinePhone = ({ screen }: { screen: ScreenId }) => {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, amount: 0.45 });
+
+  return (
+    <div ref={ref} className="mt-7">
+      <Phone screen={inView ? screen : null} className="mx-auto w-[min(66vw,270px)]" />
+    </div>
+  );
+};
+
+interface StepProps {
+  service: Service;
+  active: boolean;
+  inline: boolean;
+  onEnter: () => void;
+}
+
+const Step = ({ service, active, inline, onEnter }: StepProps) => (
+  <motion.li
+    onViewportEnter={onEnter}
+    viewport={{ margin: "-50% 0px -50% 0px" }}
+    className={`flex flex-col justify-center py-7 transition-opacity duration-500 ease-out md:min-h-[72svh] md:py-0 ${
+      active ? "" : "md:opacity-30"
+    }`}
   >
-    <div className="grid gap-12 md:grid-cols-12 md:gap-8">
-      <div className="md:col-span-5">
+    <h3 className="max-w-[16ch] text-[clamp(30px,3.6vw,60px)] font-extrabold leading-[1] tracking-[-0.035em] text-ink">
+      {service.title}
+    </h3>
+    <p className="mt-4 max-w-[42ch] text-lg leading-relaxed text-ink md:mt-6 md:text-xl">
+      {service.description}
+    </p>
+    {inline && <InlinePhone screen={service.screen} />}
+  </motion.li>
+);
+
+interface ServicesProps {
+  active: ScreenId;
+  inline: boolean;
+  onScreen: (screen: ScreenId) => void;
+}
+
+const Services = ({ active, inline, onScreen }: ServicesProps) => {
+  const renderSteps = (items: Service[]) =>
+    items.map((service) => (
+      <Step
+        key={service.title}
+        service={service}
+        active={active === service.screen}
+        inline={inline}
+        onEnter={() => onScreen(service.screen)}
+      />
+    ));
+
+  return (
+    <section id="servicios" className="relative">
+      <div className="relative z-10 pb-[15vh] pt-16 md:pb-[30vh] md:pt-40">
         <SplitWords
           text="Del primer clic a la cita confirmada"
-          className="text-balance text-[clamp(40px,4.6vw,80px)] font-extrabold leading-[0.95] tracking-[-0.04em] text-ink md:sticky md:top-32 md:font-wide"
+          className="max-w-[14ch] text-[clamp(40px,4.6vw,80px)] font-extrabold leading-[0.95] tracking-[-0.04em] text-ink md:font-wide"
         />
+        <ul className="mt-4 md:mt-0">{renderSteps(siteServices)}</ul>
       </div>
 
-      <ul className="md:col-span-7">
-        {services.map((service, index) => (
-          <motion.li
-            key={service.title}
-            initial={{ opacity: 0, y: 32 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "0px 0px -10% 0px" }}
-            transition={{ duration: 0.8, ease: EASE_OUT, delay: (index % 2) * 0.08 }}
-            className="group relative isolate py-6 md:py-9"
-          >
-            <span
-              aria-hidden="true"
-              className="absolute inset-y-0 -left-4 -right-4 -z-10 origin-left scale-x-0 bg-surface transition-transform duration-500 ease-out group-hover:scale-x-100 md:-left-8 md:-right-8"
-            />
-            <h3 className="text-[clamp(26px,2.6vw,44px)] font-bold leading-[1.05] tracking-[-0.03em] text-ink transition-transform duration-500 ease-out group-hover:translate-x-2">
-              {service.title}
-            </h3>
-            <p className="mt-3 max-w-[52ch] text-base leading-relaxed text-ink md:text-lg">
-              {service.description}
-            </p>
-          </motion.li>
-        ))}
-      </ul>
-    </div>
-  </section>
-);
+      {/* El recorrido cambia de campo cuando el sitio le pasa el cliente a la IA */}
+      <div data-field className="field-accent relative">
+        <div className="absolute inset-y-0 -left-gutter w-screen bg-ground">
+          <FieldEdge />
+        </div>
+        <ul className="relative z-10 py-6 md:py-0">{renderSteps(automationServices)}</ul>
+      </div>
+    </section>
+  );
+};
 
 export default Services;

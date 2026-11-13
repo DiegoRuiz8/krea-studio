@@ -1,8 +1,8 @@
-import { Suspense, lazy, useEffect } from "react";
+import { useEffect } from "react";
 import { MotionConfig } from "framer-motion";
 import Navbar from "./components/Navbar";
-import Hero from "./components/Hero";
-import Services from "./components/Services";
+import { DotField } from "./components/DotField";
+import { Journey } from "./components/Journey";
 import Process from "./components/Process";
 import Portfolio from "./components/Portfolio";
 import Stats from "./components/Stats";
@@ -11,20 +11,15 @@ import Footer from "./components/Footer";
 import { WhatsAppButton } from "./components/WhatsAppButton";
 import { startSmoothScroll } from "./lib/motion";
 
-const Monolith = lazy(() => import("./components/Monolith"));
-
 function App() {
   useEffect(() => startSmoothScroll(), []);
 
   return (
     <MotionConfig reducedMotion="user">
       <Navbar />
-      <Suspense fallback={null}>
-        <Monolith />
-      </Suspense>
+      <DotField />
       <main className="relative">
-        <Hero />
-        <Services />
+        <Journey />
         <Stats />
         <Portfolio />
         <Process />
