@@ -13,14 +13,81 @@
   --ink-soft: 166 166 158;
   --accent: 191 255 11;
   --on-accent: 10 10 10;
-  /* Bloques del monolito */
-  --block: 38 38 35;
-  --block-light: 255 255 245;
 
   --gutter: clamp(20px, 3.4vw, 56px);
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
 
   color-scheme: dark;
+}
+
+/*
+ * Campos de color: cada capítulo de la página redefine los mismos tokens,
+ * así los componentes no saben sobre qué fondo están.
+ */
+.field-ground {
+  --ground: 10 10 10;
+  --surface: 20 20 19;
+  --surface-raised: 30 30 28;
+  --ink: 242 242 236;
+  --ink-soft: 166 166 158;
+  --accent: 191 255 11;
+  --on-accent: 10 10 10;
+}
+
+.field-accent {
+  --ground: 191 255 11;
+  --surface: 174 236 0;
+  --surface-raised: 158 216 0;
+  --ink: 10 10 10;
+  --ink-soft: 44 58 0;
+  --accent: 10 10 10;
+  --on-accent: 191 255 11;
+}
+
+.field-bone {
+  --ground: 236 234 224;
+  --surface: 224 222 210;
+  --surface-raised: 210 208 195;
+  --ink: 10 10 10;
+  --ink-soft: 84 84 76;
+  --accent: 10 10 10;
+  --on-accent: 236 234 224;
+}
+
+.field-ground,
+.field-accent,
+.field-bone {
+  color: rgb(var(--ink));
+}
+
+/* Pieles de las pantallas del celular (WhatsApp, tienda de muestra, reseña en mapa) */
+.ui-whatsapp {
+  --wa-bg: 11 20 26;
+  --wa-bar: 31 44 52;
+  --wa-in: 32 44 51;
+  --wa-out: 0 92 75;
+  --wa-ink: 233 237 239;
+  --wa-soft: 134 150 160;
+  --wa-tick: 83 189 235;
+  --wa-brand: 37 211 102;
+}
+
+.ui-shop {
+  --shop-bg: 250 249 246;
+  --shop-ink: 24 24 22;
+  --shop-soft: 112 110 104;
+  --shop-tile: 232 230 224;
+  --shop-accent: 46 110 142;
+}
+
+.ui-review {
+  --rv-bg: 255 255 255;
+  --rv-ink: 32 33 36;
+  --rv-soft: 95 99 104;
+  --rv-star: 251 188 4;
+  --rv-reply: 241 243 244;
+  --rv-avatar: 0 137 123;
+  --rv-link: 26 115 232;
 }
 
 html {
