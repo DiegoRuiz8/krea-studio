@@ -3,19 +3,19 @@ import { SplitWords, Reveal } from "./Reveal";
 const CALL_HREF =
   "mailto:hola@studioskrea.com?subject=Agendar%20llamada%20gratuita";
 
-/* El monolito vuelve a armarse en [data-anchor="cta"] */
+/* Los bloques del fondo arman la K en [data-dots="k"] */
 const CTASection = () => (
   <section
     id="contacto"
-    data-scene="cta"
-    className="relative z-10 grid min-h-[100svh] content-center gap-10 px-gutter py-32 md:grid-cols-12 md:gap-x-8 md:gap-y-4"
+    data-field
+    className="relative grid content-center gap-8 px-gutter py-20 md:min-h-[100svh] md:gap-10 md:py-32 md:grid-cols-12 md:gap-x-8 md:gap-y-4"
   >
     <SplitWords
       text={"Tu sitio o tu WhatsApp\nestán perdiendo clientes."}
-      className="text-[clamp(38px,5.6vw,104px)] font-extrabold leading-[0.95] tracking-[-0.04em] text-ink md:col-span-12 md:font-wide"
+      className="text-[clamp(38px,5.6vw,104px)] font-extrabold leading-[0.95] tracking-[-0.04em] text-ink relative z-10 md:col-span-12 md:font-wide"
     />
 
-    <Reveal delay={0.25} className="self-end md:col-span-6">
+    <Reveal delay={0.25} className="relative z-10 self-end md:col-span-6">
       <p className="max-w-[44ch] text-lg leading-relaxed text-ink md:text-xl">
         Llamada de 20 min. Sin costo. Te decimos exactamente qué está
         fallando y cómo lo arreglamos.
@@ -32,7 +32,7 @@ const CTASection = () => (
     </Reveal>
 
     <div
-      data-anchor="cta"
+      data-dots="k"
       aria-hidden="true"
       className="order-first h-[30svh] md:order-none md:col-span-6 md:h-[44svh]"
     />

@@ -1,12 +1,4 @@
-import {
-  animate,
-  motion,
-  useInView,
-  useMotionValue,
-  useReducedMotion,
-  useScroll,
-  useTransform,
-} from "framer-motion";
+import { animate, motion, useInView, useMotionValue, useTransform } from "framer-motion";
 import { useEffect, useRef } from "react";
 import { EASE_OUT } from "../lib/motion";
 
@@ -44,21 +36,11 @@ const stats = [
   { value: 5, label: "Días para lanzar tu sitio", duration: 1.5 },
 ];
 
-/* El campo lima se abre desde una franja al centro conforme entra la sección */
-const Stats = () => {
-  const ref = useRef<HTMLElement>(null);
-  const reduced = useReducedMotion();
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "start 15%"] });
-  const inset = useTransform(scrollYProgress, [0, 1], [42, 0]);
-  const clipPath = useTransform(inset, (v) => `inset(${v}% ${v / 3}% ${v}% ${v / 3}%)`);
-
-  return (
-    <section ref={ref} aria-label="En números" className="relative z-10">
-      <motion.div
-        style={reduced ? undefined : { clipPath }}
-        className="bg-accent px-gutter py-24 text-on-accent md:py-40"
-      >
-        <dl className="grid gap-12 md:grid-cols-3 md:gap-8">
+/* Cierra el campo lima que abrió el recorrido de servicios */
+const Stats = () => (
+    <section data-field aria-label="En números" className="field-accent relative bg-ground">
+      <div className="relative z-10 px-gutter pb-[17vh] pt-10 md:pb-[32vh] md:pt-32">
+        <dl className="grid gap-7 md:grid-cols-3 md:gap-8">
           {stats.map((stat, index) => (
             <motion.div
               key={stat.label}
@@ -80,9 +62,8 @@ const Stats = () => {
             </motion.div>
           ))}
         </dl>
-      </motion.div>
+      </div>
     </section>
-  );
-};
+);
 
 export default Stats;

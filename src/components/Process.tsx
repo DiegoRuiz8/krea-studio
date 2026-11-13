@@ -1,5 +1,6 @@
 import { useMotionValueEvent, useReducedMotion, useScroll } from "framer-motion";
 import { useRef, useState } from "react";
+import { FieldEdge } from "./FieldEdge";
 import { nodeProgress, processGather } from "../lib/motion";
 import { SplitWords } from "./Reveal";
 
@@ -23,24 +24,28 @@ const steps = [
 ];
 
 /*
- * Sección fijada: mientras dura, los bloques del monolito se juntan en un nodo
- * por paso ([data-node]) unidos por un cable. Cada paso se enciende cuando su
- * nodo termina de armarse.
+ * Sección fijada: mientras dura, los bloques del fondo se juntan en un nodo
+ * por paso. Cada paso se enciende cuando su nodo termina de armarse.
  */
 const Process = () => {
   const ref = useRef<HTMLElement>(null);
+  const nodes = useRef<(HTMLSpanElement | null)[]>([]);
   const reduced = useReducedMotion();
   const [active, setActive] = useState(0);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end end"] });
 
   useMotionValueEvent(scrollYProgress, "change", (p) => {
     const gather = processGather(p);
+    nodes.current.forEach((node, i) => {
+      if (node) node.dataset.g = String(nodeProgress(gather, i));
+    });
     setActive(steps.filter((_, i) => nodeProgress(gather, i) > 0.85).length);
   });
 
   return (
-    <section id="proceso" ref={ref} data-scene="process" className="relative z-10 h-[260vh]">
-      <div className="sticky top-0 flex h-[100svh] flex-col justify-center px-gutter py-20">
+    <section id="proceso" ref={ref} data-field className="relative h-[190vh] bg-ground md:h-[260vh]">
+      <FieldEdge />
+      <div className="sticky top-0 z-10 flex h-[100svh] flex-col justify-center px-gutter py-20">
         <div className="mb-10 flex flex-col gap-3 md:mb-20 md:flex-row md:items-end md:justify-between">
           <SplitWords
             text="El Proceso"
@@ -54,7 +59,14 @@ const Process = () => {
             const on = reduced || index < active;
             return (
               <li key={step.title} className="flex gap-5 md:flex-col md:gap-0">
-                <span data-node aria-hidden="true" className="h-12 w-12 shrink-0 md:mb-10 md:h-28 md:w-28 md:self-center" />
+                <span
+                  ref={(el) => {
+                    nodes.current[index] = el;
+                  }}
+                  data-dots="node"
+                  data-g={reduced ? "1" : "0"}
+                  aria-hidden="true"
+                  className="h-12 w-12 shrink-0 md:mb-10 md:h-28 md:w-28 md:self-center" />
                 <div
                   className={`transition-[opacity,transform] duration-700 ease-out ${
                     on ? "opacity-100" : "translate-y-3 opacity-30"

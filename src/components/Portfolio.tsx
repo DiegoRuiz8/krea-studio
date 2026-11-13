@@ -2,9 +2,21 @@ import { AnimatePresence, motion, useScroll, useTransform } from "framer-motion"
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { ArrowUpRight, X } from "lucide-react";
 import { EASE_OUT, lockScroll, useMediaQuery } from "../lib/motion";
+import { FieldEdge } from "./FieldEdge";
 import { SplitWords } from "./Reveal";
 
 const projects = [
+  {
+    title: "Landana",
+    subtitle: "Fotografía y video aéreo para bienes raíces",
+    category: "Landing Page",
+    description:
+      "Grabación de contenido con drone para inmobiliarias y otros clientes, con paquetes y precios claros, portafolio de propiedades y contacto directo por WhatsApp.",
+    tags: ["React", "Vite", "Responsive"],
+    image: "/projects/landana.jpg",
+    imageMobile: "/projects/landana-mobile.jpg",
+    url: "https://landana-sky.vercel.app/",
+  },
   {
     title: "EspaXio Inmobiliaria",
     subtitle:
@@ -14,6 +26,7 @@ const projects = [
       "Sitio para una inmobiliaria con catálogo de propiedades en venta y renta, servicios de administración de condominios, gestión de créditos y contacto directo por WhatsApp.",
     tags: ["Next.js", "Catálogo", "Responsive"],
     image: "/projects/espaxio.jpg",
+    imageMobile: "/projects/espaxio-mobile.jpg",
     url: "https://www.espaxioinmobiliaria.com/es",
   },
   {
@@ -24,6 +37,7 @@ const projects = [
       "Sitio bilingüe (EN/ES) para un party bus durante el Mundial 2026, con selección de fecha, tickets por nivel, ruta, FAQ y reserva directa.",
     tags: ["Next.js", "Bilingüe", "Responsive"],
     image: "/projects/worldcupnights.jpg",
+    imageMobile: "/projects/worldcupnights-mobile.jpg",
     url: "https://www.worldcupnights.lat/",
   },
   {
@@ -34,17 +48,8 @@ const projects = [
       "Sitio para un creador de contenido musical con archivo de videos destacados, historias de la comunidad, buzón para dedicar canciones con búsqueda en Spotify y newsletter.",
     tags: ["Next.js", "Spotify", "Newsletter"],
     image: "/projects/luisfelipeiv.jpg",
+    imageMobile: "/projects/luisfelipeiv-mobile.jpg",
     url: "https://www.luisfelipeiv.com/",
-  },
-  {
-    title: "Landana",
-    subtitle: "Fotografía y video aéreo para bienes raíces",
-    category: "Landing Page",
-    description:
-      "Grabación de contenido con drone para inmobiliarias y otros clientes, con paquetes y precios claros, portafolio de propiedades y contacto directo por WhatsApp.",
-    tags: ["React", "Vite", "Responsive"],
-    image: "/projects/landana.jpg",
-    url: "https://landana-sky.vercel.app/",
   },
 ];
 
@@ -58,24 +63,39 @@ const ProjectCard = ({ project, onOpen }: { project: Project; onOpen: () => void
   <button
     type="button"
     onClick={onOpen}
-    className="group block w-[82vw] shrink-0 snap-start text-left md:w-[min(58vw,960px)]"
+    className="group block w-[68vw] shrink-0 snap-start text-left md:w-[min(58vw,960px)]"
   >
-    <span className="relative block aspect-[16/10] overflow-hidden bg-surface">
-      <img
-        src={project.image}
-        alt={project.title}
-        width={1600}
-        height={1200}
-        loading="lazy"
-        className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
-      />
+    <span className="relative block aspect-[500/1082] overflow-hidden bg-surface md:aspect-[16/10]">
+      {/* En escritorio la versión móvil del mismo sitio va encima, en su propio marco */}
+      <span className="absolute bottom-5 right-5 z-10 hidden w-[15%] rounded-[20px] bg-ground p-1.5 transition-transform duration-500 ease-out group-hover:-translate-y-2 md:block">
+        <img
+          src={project.imageMobile}
+          alt=""
+          width={1000}
+          height={2164}
+          loading="lazy"
+          className="aspect-[500/1082] w-full rounded-[15px] object-cover object-top"
+        />
+      </span>
+      <picture>
+        <source media="(max-width: 767px)" srcSet={project.imageMobile} width={1000} height={2164} />
+        <img
+          src={project.image}
+          alt={project.title}
+          width={1600}
+          height={1200}
+          loading="lazy"
+          className="h-full w-full object-cover object-top transition-transform duration-700 ease-out group-hover:scale-[1.04]"
+        />
+      </picture>
     </span>
     <span className="mt-5 flex items-start justify-between gap-6">
       <span>
         <span className="block text-2xl font-bold tracking-[-0.03em] text-ink md:text-4xl">
           {project.title}
         </span>
-        <span className="mt-1 block text-base text-ink-soft md:text-lg">{project.subtitle}</span>
+        <span className="mt-1 block text-sm font-semibold text-ink md:text-base">{project.category}</span>
+        <span className="block text-base text-ink-soft md:text-lg">{project.subtitle}</span>
       </span>
       <span className="flex h-12 w-12 shrink-0 items-center justify-center bg-surface-raised text-ink transition-colors duration-300 group-hover:bg-accent group-hover:text-on-accent">
         <ArrowUpRight className="h-5 w-5 transition-transform duration-300 ease-out group-hover:-translate-y-0.5 group-hover:translate-x-0.5" strokeWidth={2} />
@@ -156,6 +176,8 @@ const Portfolio = () => {
 
   const { scrollYProgress } = useScroll({ target: wrapRef, offset: ["start start", "end end"] });
   const x = useTransform(scrollYProgress, [0, 1], [0, -distance]);
+  const { scrollXProgress } = useScroll({ container: trackRef });
+  const progress = isDesktop ? scrollYProgress : scrollXProgress;
 
   useLayoutEffect(() => {
     const track = trackRef.current;
@@ -192,11 +214,13 @@ const Portfolio = () => {
       <section
         id="portfolio"
         ref={wrapRef}
-        className="relative z-10"
+        data-field
+        className="field-bone relative bg-ground"
         style={isDesktop ? { height: `calc(100vh + ${distance}px)` } : undefined}
       >
-        <div className="flex flex-col justify-center py-28 md:sticky md:top-0 md:h-screen md:overflow-hidden md:py-0">
-          <div className="mb-10 flex flex-col gap-4 px-gutter md:mb-14 md:flex-row md:items-end md:justify-between">
+        <FieldEdge />
+        <div className="relative z-10 flex flex-col justify-center py-16 md:sticky md:top-0 md:h-screen md:overflow-hidden md:py-0">
+          <div className="mb-8 flex flex-col gap-4 px-gutter md:mb-10 md:flex-row md:items-end md:justify-between">
             <SplitWords
               text="Proyectos Destacados"
               className="text-[clamp(40px,5.4vw,96px)] font-extrabold leading-[0.95] tracking-[-0.04em] text-ink md:font-wide"
@@ -216,6 +240,10 @@ const Portfolio = () => {
               <ProjectCard key={project.title} project={project} onOpen={() => setSelected(index)} />
             ))}
           </motion.div>
+
+          <div aria-hidden="true" className="mx-gutter mt-7 h-1 bg-surface-raised md:mt-8">
+            <motion.div style={{ scaleX: progress }} className="h-full origin-left bg-ink" />
+          </div>
         </div>
       </section>
 
