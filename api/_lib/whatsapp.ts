@@ -23,6 +23,7 @@ async function postToGraph(payload: Record<string, unknown>): Promise<void> {
     method: "POST",
     headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
     body: JSON.stringify({ messaging_product: "whatsapp", ...payload }),
+    signal: AbortSignal.timeout(10_000),
   });
 
   if (!res.ok) {

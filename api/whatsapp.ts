@@ -117,7 +117,9 @@ async function handleMessage({ message, contactName }: InboundMessage): Promise<
     log({ event: "reply_ok", waId, length: reply.length });
   } catch (err) {
     log({ event: "reply_error", waId, error: (err as Error).message });
-    await sendText(waId, ERROR_REPLY).catch(() => undefined);
+    await sendText(waId, ERROR_REPLY).catch((sendErr: Error) =>
+      log({ event: "error_reply_failed", waId, error: sendErr.message }),
+    );
   }
 }
 
